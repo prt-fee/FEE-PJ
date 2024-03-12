@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="movie.css" />
-    
-    <title>Movie App</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="movie.css">
+    <title>Movie Time</title>
+    <link rel="icon" href="icons8-play-48.png" type="image/x-icon">
 </head>
-
 <body>
-    <nav>
-        <label class="logo">Streamers</label>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">about</a></li>
-            <li><a href="#">contact us</a></li>
-            <li><a href="#">categories</a></li>
-            <li><a href="#">recommended</a></li>
-            <li><a href="/siignnn/index.html">Sign Up</a></li>
-    </nav>
-
+    
     <header>
         <form id="form">
-            <input type="text" id="search" class="search" placeholder="Search">
+            
+            <nav>
+                <label class="logo">Movies</label>
+                <ul>
+
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="contactus.html">Contact Us</a></li>
+                    <li>
+                        <label for="rating">Rating:</label>
+                        <select id="rating">
+                            <option value="-1">Any</option>
+                            <option value="8">8+</option>
+                            <option value="7">7+</option>
+                            <option value="6">6+</option>
+                        </select>
+                    </li>
+                    <li><button type="submit">Filter</button></li>
+                    <li><input type="text" id="search" class="search" placeholder="Search"></li>
+                    <li><a href="Signup.html">User</a></li>
+                </ul>
+            </nav>
+            
         </form>
     </header>
 
     <main id="main"></main>
 
-    <script src="./movie.js"></script>
+    <script src="/movie.js"></script>
 </body>
-
 </html>
+
