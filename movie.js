@@ -1,67 +1,68 @@
-const API_URL =
-  "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=3fd2be6f0c70a2a598f084ddfb75487c&page=1";
-const IMG_PATH = "https://image.tmdb.org/t/p/w1280";
-const SEARCH_API =
-  'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query="';
+const API_URL = 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=3fd2be6f0c70a2a598f084ddfb75487c&page=1'
+const IMG_PATH = 'https://image.tmdb.org/t/p/w1280'
+const SEARCH_API = 'https://api.themoviedb.org/3/search/movie?api_key=3fd2be6f0c70a2a598f084ddfb75487c&query="'
 
-const main = document.getElementById("main");
-const form = document.getElementById("form");
-const search = document.getElementById("search");
+const main = document.getElementById('main')
+const form = document.getElementById('form')
+const search = document.getElementById('search')
+const rating = document.getElementById('rating')
 
 // Get initial movies
-getMovies(API_URL);
+getMovies(API_URL)
 
-async function getMovies(url) {
-  const res = await fetch(url);
-  const data = await res.json();
+async function getMovies(url, selectedRating) {
+    let apiUrl = url;
+    if (selectedRating && selectedRating !== -1) {
+        apiUrl += `&vote_average.gte=${selectedRating}`;
+    }
 
-  showMovies(data.results);
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+
+    showMovies(data.results);
 }
 
 function showMovies(movies) {
-  main.innerHTML = "";
+    main.innerHTML = '';
 
-  movies.forEach((movie) => {
-    const { title, poster_path, vote_average, overview } = movie;
+    movies.forEach((movie) => {
+        const { title, poster_path, vote_average, overview } = movie;
 
-    const movieEl = document.createElement("div");
-    movieEl.classList.add("movie");
+        const movieEl = document.createElement('div');
+        movieEl.classList.add('movie');
 
-    movieEl.innerHTML = `
+        movieEl.innerHTML = `
             <img src="${IMG_PATH + poster_path}" alt="${title}">
             <div class="movie-info">
-          <h3>${title}</h3>
-          <span class="${getClassByRate(vote_average)}">${vote_average}</span>
+                <h3>${title}</h3>
+                <span class="${getClassByRate(vote_average)}">${vote_average}</span>
             </div>
             <div class="overview">
-          <h3>Overview</h3>
-          ${overview}
-        </div>
+                <h3>Overview</h3>
+                ${overview}
+            </div>
         `;
-    main.appendChild(movieEl);
-  });
+        main.appendChild(movieEl);
+    });
 }
-
 function getClassByRate(vote) {
-  if (vote >= 8) {
-    return "green";
-  } else if (vote >= 5) {
-    return "orange";
-  } else {
-    return "red";
-  }
+    if(vote >= 8) {
+        return 'green';
+    } else if(vote >= 5) {
+        return 'orange';
+    } else {
+        return 'red';
+    }
 }
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const searchTerm = search.value;
+    const selectedRating = rating.value;
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const searchTerm = search.value;
-
-  if (searchTerm && searchTerm !== "") {
-    getMovies(SEARCH_API + searchTerm);
-
-    search.value = "";
-  } else {
-    window.location.reload();
-  }
+    if(searchTerm && searchTerm !== '') {
+        getMovies(SEARCH_API + searchTerm, selectedRating);
+        search.value = '';
+    } else {
+        getMovies(API_URL, selectedRating);
+    }
 });
